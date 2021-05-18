@@ -13,7 +13,6 @@ networks:
 services:
   mariadb:
       image: mariadb:latest
-      container_name: mariadb_server
       volumes:
         - mariadb_data:/var/lib/mysql
       environment:
@@ -31,12 +30,12 @@ services:
         test: ["CMD", "mysqladmin", "ping", "--silent"]
       networks:
         - network
-  keycloack:
-      image: docker.io/jboss/keycloak:latest
-      container_name: keycloak_server
+  keycloak:
+      image: jboss/keycloak:12.0.4
       volumes:
         - keycloak_data:/opt/jboss/keycloak/standalone/
       environment:
+        DB_VENDOR: mariadb
         DB_ADDR: mariadb
         DB_USER: keycloakadmin
         DB_PASSWORD: keycloak#2345
@@ -44,8 +43,6 @@ services:
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: admin#2345
         PROXY_ADDRESS_FORWARDING: "true"
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the MySQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "connectTimeout=30000"
       ports:
         - 8080:8080
         - 8443:8443
