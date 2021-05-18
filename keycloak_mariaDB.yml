@@ -1,0 +1,72 @@
+version: '3'
+
+volumes:
+  mariadb_data:
+      driver: local
+  keycloack_data:
+      driver: local
+
+networks:
+  network:
+      driver: bridge
+
+services:
+  mariadb:
+      image: mariadb:latest
+      container_name: mariadb_server
+      volumes:
+        - mariadb_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: strong#password#2345
+        MYSQL_DATABASE: keycloackDB
+        MYSQL_USER: keycloackadmin
+        MYSQL_PASSWORD: keycloack#2345
+      ports:
+        - 3306:3306
+      command:
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+      restart: always
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "--silent"]
+      networks:
+        - network
+  keycloack:
+      image: keycloak:latest
+      container_name: keycloack_server
+      volumes:
+        - keycloack_data:/opt/jboss/keycloak/standalone/
+      environment:
+        DB_ADDR: mariadb
+        DB_USER: keycloackadmin
+        DB_PASSWORD: keycloack#2345
+        DB_DATABASE: keycloackDB
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin#2345
+        PROXY_ADDRESS_FORWARDING: "true"
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the MySQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "connectTimeout=30000"
+      ports:
+        - 8080:8080
+        - 8443:8443
+        - 9990:9990
+      command:
+        - -b 0.0.0.0
+        - -bmanagement 0.0.0.0
+      restart: always
+      healthcheck:
+        test: ["CMD", "curl", "--silent", "--fail", "http://localhost:8080/auth/realms/master"]
+        interval: 30s
+        timeout: 10s
+        start_period: 5m
+        retries: 10
+      networks:
+        - network
+      depends_on:
+        mariadb:
+          condition: service_healthy
+
+# Default application username and password.
+# DB User: root, Password: strong#password#2345
+# Kcloak DB User: keycloackadmin, Password: keycloack#2345, DB: keycloackDB
+# Kcloak Login Admin User: admin, Password: admin#2345
