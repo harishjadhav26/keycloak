@@ -34,3 +34,10 @@ Destroy keycloak containers:
 # Kcloak DB User: keycloakadmin, Password: keycloak#2345, DB: keycloakDB
 # Kcloak Login Admin User: admin, Password: admin#2345
 ```
+
+##### Open URL in your browser
+
+```http://localhost:8080```
+
+Enter given default username and password.
+
