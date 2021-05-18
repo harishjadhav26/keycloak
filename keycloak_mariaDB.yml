@@ -3,7 +3,7 @@ version: '3'
 volumes:
   mariadb_data:
       driver: local
-  keycloack_data:
+  keycloak_data:
       driver: local
 
 networks:
@@ -18,9 +18,9 @@ services:
         - mariadb_data:/var/lib/mysql
       environment:
         MYSQL_ROOT_PASSWORD: strong#password#2345
-        MYSQL_DATABASE: keycloackDB
-        MYSQL_USER: keycloackadmin
-        MYSQL_PASSWORD: keycloack#2345
+        MYSQL_DATABASE: keycloakDB
+        MYSQL_USER: keycloakadmin
+        MYSQL_PASSWORD: keycloak#2345
       ports:
         - 3306:3306
       command:
@@ -32,15 +32,15 @@ services:
       networks:
         - network
   keycloack:
-      image: keycloak:latest
-      container_name: keycloack_server
+      image: docker.io/jboss/keycloak:latest
+      container_name: keycloak_server
       volumes:
-        - keycloack_data:/opt/jboss/keycloak/standalone/
+        - keycloak_data:/opt/jboss/keycloak/standalone/
       environment:
         DB_ADDR: mariadb
-        DB_USER: keycloackadmin
-        DB_PASSWORD: keycloack#2345
-        DB_DATABASE: keycloackDB
+        DB_USER: keycloakadmin
+        DB_PASSWORD: keycloak#2345
+        DB_DATABASE: keycloakDB
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: admin#2345
         PROXY_ADDRESS_FORWARDING: "true"
@@ -68,5 +68,5 @@ services:
 
 # Default application username and password.
 # DB User: root, Password: strong#password#2345
-# Kcloak DB User: keycloackadmin, Password: keycloack#2345, DB: keycloackDB
+# Kcloak DB User: keycloakadmin, Password: keycloak#2345, DB: keycloakDB
 # Kcloak Login Admin User: admin, Password: admin#2345
