@@ -6,27 +6,27 @@ https://docs.docker.com/compose/install/
 
 Clone git repo:
 
-```git clone https://github.com/harishjadhav26/keycloak.git```
+``` git clone https://github.com/harishjadhav26/keycloak.git ```
 
-```cd keycloak```
+``` cd keycloak ```
 
 Start docker containers using docker compose.
 
-```docker-compose -p oauthserver -f keycloak_mariaDB.yml up```
+``` docker-compose -p oauthserver -f keycloak_mariaDB.yml up -d ```
 
 Verify rinnung containers:
 
-```docker ps```
+``` docker ps ```
 
 Check container logs:
 
-```docker logs -f oauthserver_keycloak_1```
+``` docker logs -f oauthserver_keycloak_1 ```
 
-```docker logs -f oauthserver_mariadb_1```
+``` docker logs -f oauthserver_mariadb_1 ```
 
 Destroy keycloak containers:
 
-```docker-compose -p oauthserver -f keycloak_mariaDB.yml down -v```
+``` docker-compose -p oauthserver -f keycloak_mariaDB.yml down -v ```
 
 ```
 # Default application username and password.
@@ -39,5 +39,5 @@ Destroy keycloak containers:
 
 ```http://localhost:8080```
 
-Enter given default username and password.
+Enter given default username and password and your server is ready to use.
 
