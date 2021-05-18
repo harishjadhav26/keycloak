@@ -37,7 +37,6 @@ Destroy keycloak containers:
 
 ##### Open URL in your browser
 
-```http://localhost:8080```
+``` http://<IP/HOSTNAME>:8080 ```
 
 Enter given default username and password and your server is ready to use.
-
