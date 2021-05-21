@@ -7,7 +7,7 @@ volumes:
       driver: local
 
 networks:
-  network:
+  oauth_network:
       driver: bridge
 
 services:
@@ -29,7 +29,7 @@ services:
       healthcheck:
         test: ["CMD", "mysqladmin", "ping", "--silent"]
       networks:
-        - network
+        - oauth_network
   keycloak:
       image: jboss/keycloak:12.0.4
       volumes:
@@ -58,7 +58,7 @@ services:
         start_period: 5m
         retries: 10
       networks:
-        - network
+        - oauth_network
       depends_on:
         mariadb:
           condition: service_healthy
