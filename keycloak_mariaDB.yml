@@ -31,7 +31,7 @@ services:
       networks:
         - oauth_network
   keycloak:
-      image: jboss/keycloak:12.0.4
+      image: jboss/keycloak:15.0.1
       volumes:
         - keycloak_data:/opt/jboss/keycloak/standalone/
       environment:
@@ -43,6 +43,10 @@ services:
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: admin#2345
         PROXY_ADDRESS_FORWARDING: "true"
+        # Keycloak parametres do not change
+        JAVA_OPTS: "-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Djboss.as.management.blocking.timeout=3600 -Dkeycloak.profile.feature.upload_scripts=enabled"
+        # Keycloak debug log level
+        #KEYCLOAK_LOGLEVEL: "DEBUG"
       ports:
         - 8080:8080
         - 8443:8443
@@ -55,7 +59,7 @@ services:
         test: ["CMD", "curl", "--silent", "--fail", "http://localhost:8080/auth/realms/master"]
         interval: 30s
         timeout: 10s
-        start_period: 5m
+        start_period: 60m
         retries: 10
       networks:
         - oauth_network
