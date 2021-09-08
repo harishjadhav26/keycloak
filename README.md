@@ -1,6 +1,8 @@
-Keycloak MariaDB Deploy using docker-compose
+**Keycloak MariaDB Deploy using docker-compose**
 
-#### Verify and update docker compose
+If you want to chnage keycloak version so refer link https://hub.docker.com/r/jboss/keycloak/tags?page=1&ordering=last_updated
+
+**Verify and update docker compose**
 
 https://docs.docker.com/compose/install/
 
@@ -10,21 +12,21 @@ Clone git repo:
 
 ``` cd keycloak ```
 
-Start docker containers using docker compose.
+**Start docker containers using docker compose.**
 
 ``` docker-compose -p oauthserver -f keycloak_mariaDB.yml up -d ```
 
-Verify rinnung containers:
+**Verify rinnung containers:**
 
 ``` docker ps ```
 
-Check container logs:
+**Check container logs:**
 
 ``` docker logs -f oauthserver_keycloak_1 ```
 
 ``` docker logs -f oauthserver_mariadb_1 ```
 
-Destroy keycloak containers:
+**Destroy keycloak containers:**
 
 ``` docker-compose -p oauthserver -f keycloak_mariaDB.yml down -v ```
 
@@ -35,8 +37,8 @@ Destroy keycloak containers:
 # Kcloak Login Admin User: admin, Password: admin#2345
 ```
 
-##### Open URL in your browser
+**Open URL in your browser**
 
 ``` http://<IP/HOSTNAME>:8080 ```
 
-Enter given default username and password and your server is ready to use.
+**Enter given default username and password and your server is ready to use.**
